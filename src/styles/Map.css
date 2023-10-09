@@ -1,0 +1,40 @@
+.map-container {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+  .mapexten a{
+
+    color: rgb(159, 153, 153);
+    text-decoration: none;
+
+  }
+  .sidebarStyle {
+    display: inline-block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: 12px;
+    background-color: #404040;
+    color: #ffffff;
+    z-index: 1 !important;
+    padding: 6px;
+    font-weight: bold;
+  }
+  /* .mapexten{
+    display: flex;
+    flex-direction: column;
+    padding: 13px;
+     */
+  /* }
+
+  /* li{
+    color: rgb(159, 153, 153);
+  }*/
+
+a:active,a:hover{
+    color:rgb(213, 232, 232);
+  } 
+

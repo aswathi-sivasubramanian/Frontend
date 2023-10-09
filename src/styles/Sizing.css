@@ -1,0 +1,10 @@
+.mainsize{
+    margin-left: 200px;
+    margin-top: 42px;
+    text-align: center;
+color: grey;
+/* border: 0.0001rem solid rgba(212, 212, 215, 0.252); */
+    
+   background-color: rgb(9, 9, 9);
+   position: fixed;
+}

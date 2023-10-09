@@ -1,0 +1,39 @@
+/* Sidebar container */
+.sidebar {
+  padding: 15px;
+    position: fixed;
+    top:45px;
+    left: 0;
+    bottom: 0;
+    width: 250px; 
+    background-color:black; 
+    overflow-y: auto;
+    width: 200px; 
+  }
+
+ 
+  
+  /* Nav links text color */
+  .sidebar .nav-link {
+    color:rgb(176, 164, 164);
+    font-size:15px;
+  }
+  .sidebar .nav-link:hover{
+    color: rgb(106, 108, 110);
+  }
+  /* Active nav link background color */
+  .sidebar .nav-link.active {
+    background-color: #3a3a3c;
+  
+    color:rgb(204, 204, 204);
+    /* Active link background color */
+    border-top-right-radius: 20px;
+  }
+ 
+  
+  .sidebar .nav-link.active {
+    color: rgb(216, 200, 200);
+     
+  }
+  
+  /* hover. */
