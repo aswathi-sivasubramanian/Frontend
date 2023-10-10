@@ -1,5 +1,4 @@
 import React,{useState} from 'react';
-import './App.css'
 import Navbarmain from './components/Navbarmain';
 import Sidebar from './components/Sidebar';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
@@ -11,6 +10,7 @@ import SidebarLink1 from './components/SidebarLink1';
 import SidebarLink2 from './components/SidebarLink2';
 import SidebarLink3 from './components/SidebarLink3';
 import SidebarLink4 from './components/SidebarLink4';
+import "./App.css"
 function App() {
   const [cen,setCen] = useState([ -73.5763 ,40.5465]);
  

@@ -1,12 +1,25 @@
 import React, { useRef, useEffect } from 'react'
-import '../styles/Sizing.css'
+// import '../styles/Sizing.css'
 import "../styles/Map.css"
 import mapboxgl from "mapbox-gl";
 import features from './trees.json';
 import boro from './BoroughNYC.json'
 mapboxgl.accessToken =
   "pk.eyJ1IjoiYXN3YXRoaXMwNyIsImEiOiJjbG1pcG5nbjcwc3NiM2xuc3dmZHc4bHhxIn0.Sjxf7YoCzfBIm7t0zbnFnQ";
-
+  const boroughCodes = {
+    'Bronx': 'BX',
+    'Queens': 'QU',
+    'Manhattan': 'MN',
+    'Brooklyn': 'BK',
+    'Staten Island': 'SI'
+  };
+  const boroughCoordinates = {
+    Bronx: [-73.8568, 40.8572],     
+    Queens: [-73.8258, 40.7128],    
+    Manhattan: [-74.006, 40.7128], 
+    Brooklyn: [-73.9465, 40.6782],  
+    'Staten Island': [-74.1531, 40.5795]  
+  };
 const Map = ({ cen, setCen }) => {
 
   const mapContainerRef = useRef(null);
@@ -36,17 +49,17 @@ const Map = ({ cen, setCen }) => {
         "paint": {
           "fill-color": [
             "match",
-            ["get", "boro_name"], // Assuming "Location" is a property in your GeoJSON with location identifiers
-            "Bronx", "#a8f7bc", // Specify the color for Location1
-            "Queens", "#a4dafb", // Specify the color for Location2
-            "Manhattan", "#fba4f6", // Specify the color for Location3
-            "Brooklyn", "#f1fba4", // Specify the color for Location4
-            "Staten Island", "#f97f9d", // Specify the color for Location5
-            // Add more matches for other locations and colors as needed
-            "#44AB80" // Default color if there's no match
+            ["get", "boro_name"], 
+            "Bronx", "#a8f7bc",
+            "Queens", "#a4dafb", 
+            "Manhattan", "#fba4f6", 
+            "Brooklyn", "#f1fba4", 
+            "Staten Island", "#f97f9d", 
+          
+            "#44AB80"
           ],
-           // Adjust the radius as needed
-          "fill-opacity": 0.6
+        
+          "fill-opacity": 0.2
         }
         
       })
@@ -57,60 +70,54 @@ const Map = ({ cen, setCen }) => {
         "paint": {
           "line-color": [
             "match",
-            ["get", "boro_name"], // Assuming "Location" is a property in your GeoJSON with location identifiers
-            "Bronx", "#0c9c30", // Specify the color for Location1
-            "Queens", "#076197", // Specify the color for Location2
-            "Manhattan", "#921b8b", // Specify the color for Location3
-            "Brooklyn", "#a9bd0e", // Specify the color for Location4
-            "Staten Island", "#b80a35", // Specify the color for Location5
-            // Add more matches for other locations and colors as needed
-            "#1a5b40" // Default color if there's no match
+            ["get", "boro_name"], 
+            "Bronx", "#0c9c30", 
+            "Queens", "#076197", 
+            "Manhattan", "#921b8b",
+            "Brooklyn", "#a9bd0e", 
+            "Staten Island", "#b80a35", 
+            "#1a5b40"
           ],
-           // Adjust the radius as needed
-          "line-width": 1
+         
+          "line-width": 2,
+
         }
         
-      })
-
-      
-      // map.addLayer({
-      //   "id": "add-locations",
-      //   "type": "circle",
-      //   "source": "hotspot", // Assuming your GeoJSON data source is named 'hotspot'
-      //   "paint": {
-      //     "circle-color": 
-      //       // hes for other locations and colors as needed
-      //       "#6f6064" // Default color if there's no match
-      //     ,
-      //     "circle-radius":7, // Adjust the radius as needed
-      //     "circle-opacity": 0.5
-      //   },
-      //   minzoom: 10, // Set the minimum zoom level for the layer
-      //  // Set the maximum zoom level for the layer
-      // });
- 
-      let newLayerId = 0;
-      const boroughCodes = {
-  'Bronx': 'BX',
-  'Queens': 'QU',
-  'Manhattan': 'MN',
-  'Brooklyn': 'BK',
-  'Staten Island': 'SI'
-};
-const boroughCoordinates = {
-  Bronx: [-73.8568, 40.8572],     
-  Queens: [-73.8258, 40.7128],    
-  Manhattan: [-74.006, 40.7128], 
-  Brooklyn: [-73.9465, 40.6782],  
-  'Staten Island': [-74.1531, 40.5795]  
-};
+      })   
+         map.addLayer({
+        "id": "accesspoints",
+        "type": "circle",
+        "source": "hotspot",
+        "paint": {
+          "circle-color": 
+          "#002e63" ,  
+          "circle-radius": 8,
+          "circle-opacity":0.4
+        },
+        minzoom: 11, 
+      });
+          
+map.on('click',"accesspoints",(event)=>{
+    new mapboxgl.Popup()
+    .setLngLat(event.features[0].geometry.coordinates)
+    .setHTML(` Device ID :${event.features[0].properties.OBJECTID}</br>Boroname:${event.features[0].properties.Borough}</br>Hotspot Provider: ${event.features[0].properties.Provider}</br>Service: ${event.features[0].properties.Type}</br>
+    `)
+    .addTo(map);
+   
+})
     map.on('click',"add-boro",(event)=>{
-      const layerId = `new-layer-${newLayerId}`;
+      const layerId = `accesspoints`;
       const clickedBorough = event.features[0].properties.boro_name;
 
       
       const centerCoordinates = boroughCoordinates[clickedBorough];
-      const zoomLevel = 12; 
+      const zoomLevel = 11; 
+      if (map.getLayer(layerId)) {
+        map.removeLayer(layerId);
+      }
+      if (map.getSource(layerId)) {
+        map.removeSource(layerId);
+      }
       new mapboxgl.Popup()
       map.flyTo({
         center: centerCoordinates,
@@ -120,34 +127,24 @@ const boroughCoordinates = {
       map.addLayer({
         "id": layerId,
         "type": "circle",
-        "source": "hotspot", // Assuming your GeoJSON data source is named 'hotspot'
+        "source": "hotspot",
         "paint": {
           "circle-color": [
             "match",
-            ["get",  `Borough`], // Assuming "Location" is a property in your GeoJSON with location identifiers
-            `${boroughCodes[event.features[0].properties.boro_name]}`, "#0c9c30", // Specify the color for Location1
-          "#6f6064"
+            ["get",  `Borough`], 
+            `${boroughCodes[event.features[0].properties.boro_name]}`, "#954535",
+          "rgba(255, 0, 0, 0)"
           ],
-           // Adjust the radius as needed
-          "circle-radius": 8
+           
+          "circle-radius": 8,
+          "circle-opacity":0.2
         },
-        minzoom: 10, // Set the minimum zoom level for the layer
-       // Set the maximum zoom level for the layer
+        minzoom: 11, 
       });
-      console.log(boroughCodes[event.features[0].properties.boro_name])
-      newLayerId++;
+      console.log(event.features[0].properties.boro_name)
+     
     })
-//      map.on('click', 'add-locations', (event) => {
-//   const coordinates = event.features[0].geometry.coordinates; // Assuming it's in the format [lng, lat]
-//   if (coordinates && coordinates.length === 2) {
-//     new mapboxgl.Popup()
-//       .setLngLat(coordinates)
-//       .setHTML(`<strong>Borough:</strong> ${event.features[0].properties.Borough}`)
-//       .addTo(map);
-//   } else {
-//     console.error('Invalid coordinates format:', coordinates);
-//   }
-// });
+
 
           
          });
@@ -159,7 +156,7 @@ const boroughCoordinates = {
   }, [cen]);
 
 
-  return <div className="map-container mainsize" ref={mapContainerRef} />;
+  return <div className="map-container mainsize" ref={mapContainerRef} style={{backgroundColor:'white'}} />;
 };
 
 export default Map;
