@@ -17,6 +17,8 @@
   .sidebar .nav-link {
     color:rgb(176, 164, 164);
     font-size:15px;
+    font-family:monospace;
+    font-weight:600;
   }
   .sidebar .nav-link:hover{
     color: rgb(106, 108, 110);

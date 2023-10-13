@@ -1,16 +1,66 @@
+/* popup div */
+.popupdiv{
+  margin-top: 100px;
+}
+/* close button */
+.custom-popup button{
+color: grey;
+  background-color: rgba(105, 99, 99, 0.501);
+ font-size: 20px;
+ font-weight:bolder;
+  border: none;
+ left:0;
+ position: absolute;
+ 
+  border-radius: 12px 0px 12px 0px;
+ 
+}
+p{
+  margin-left: 10px!important;
+ padding: 0%!important;
 
+}
+/* popup_onclick_container */
+.custom-popup{
+  position: fixed;
+border-radius:  0px 0px 0px 0px;
+  color: rgba(255, 255, 255, 0.697);
+ top: 0;
+ margin-top:42px ;  /* left:0; */
+  right: 0;
+  width: 300px;
+  height:10000px;
+  background-color:black;
+  overflow: hidden;
+  text-align: center;
+
+  
+  
+}
+#main {
+
+  width: auto;
+  /* height: 700px; */
+
+}
 .map-container {
-    position: absolute;
+    position: fixed;
     top: 0;
     bottom: 0;
     left: 0;
     right: 0;
+    /* height: 680px; */
   
-  }
+  } 
   .mapexten a{
 
-    color: rgb(159, 153, 153);
+    /* color: rgb(159, 153, 153); */
     text-decoration: none;
+    color:rgb(176, 164, 164);
+    font-size:15px;
+    font-family:monospace;
+    font-weight:600;
+  
 
   }
   .sidebarStyle {
@@ -24,17 +74,17 @@
     z-index: 1 !important;
     padding: 6px;
     font-weight: bold;
-  }
-  /* .mapexten{
+  } 
+  .mapexten{
     display: flex;
     flex-direction: column;
     padding: 13px;
-     */
-  /* }
+     
+  }
 
-  /* li{
+ li{
     color: rgb(159, 153, 153);
-  }*/
+  }
 
 a:active,a:hover{
     color:rgb(213, 232, 232);

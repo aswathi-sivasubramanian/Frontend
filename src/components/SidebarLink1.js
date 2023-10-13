@@ -1,8 +1,8 @@
-import React, { useRef, useEffect } from 'react'
+import React, { useRef, useEffect ,useState} from 'react'
 // import '../styles/Sizing.css'
 import "../styles/Map.css"
 import mapboxgl from "mapbox-gl";
-import features from './trees.json';
+// import features from './Accesspoints.json';
 import boro from './BoroughNYC.json'
 mapboxgl.accessToken =
   "pk.eyJ1IjoiYXN3YXRoaXMwNyIsImEiOiJjbG1pcG5nbjcwc3NiM2xuc3dmZHc4bHhxIn0.Sjxf7YoCzfBIm7t0zbnFnQ";
@@ -20,11 +20,25 @@ mapboxgl.accessToken =
     Brooklyn: [-73.9465, 40.6782],  
     'Staten Island': [-74.1531, 40.5795]  
   };
+  
+  function CustomPopup({ data }) {
+    return (
+      <div className='popupdiv' >
+        <img width="200px" height="200px"src="https://cdn0.centrecom.com.au/images/upload/0144368_0.jpeg" alt='routerimage'></img>
+        <p>{data.OBJECTID}</p>
+        <p>{data.Borough}</p><p>{data.Provider}</p><p>{data.Type}</p><p>{data.Activated}</p>
+      </div>
+    );
+  }
+  
 const Map = ({ cen, setCen }) => {
-
-  const mapContainerRef = useRef(null);
-
-
+  
+  const [showCustomPopup, setShowCustomPopup] = useState(false);
+  const [popupData, setPopupData] = useState(null);
+ const mapContainerRef = useRef(null);
+ const closePopup = () => {
+  setShowCustomPopup(false);
+};
   // Initialize map when component mounts
   useEffect(() => {
     const map = new mapboxgl.Map({
@@ -33,10 +47,12 @@ const Map = ({ cen, setCen }) => {
       center: cen,
       zoom: 8.58
     });
+ 
     map.on('load', () => {
       map.addSource('hotspot', {
       'type': 'geojson',
-     'data':features
+     'data':"http://192.168.3.55:8080/api/v1/geojson_accesspoints"
+   
       });
       map.addSource('boronyc',{
         type: 'geojson',
@@ -57,11 +73,12 @@ const Map = ({ cen, setCen }) => {
             "Staten Island", "#f97f9d", 
           
             "#44AB80"
-          ],
-        
-          "fill-opacity": 0.2
-        }
-        
+          ],      
+          "fill-opacity": 0.2,
+          // "mzoom": 12
+          
+        }  ,
+        "maxzoom":11      
       })
       map.addLayer({
         'id':"add-border",
@@ -80,9 +97,9 @@ const Map = ({ cen, setCen }) => {
           ],
          
           "line-width": 2,
-
-        }
-        
+          
+        } ,
+        "maxzoom":11      
       })   
          map.addLayer({
         "id": "accesspoints",
@@ -94,23 +111,37 @@ const Map = ({ cen, setCen }) => {
           "circle-radius": 8,
           "circle-opacity":0.4
         },
-        minzoom: 11, 
+        'minzoom': 11, 
       });
+      let popup = null;
+      map.on('mousemove', 'accesspoints', (event) => {
+          if (popup) {
+              popup.remove();
+          }
           
-map.on('click',"accesspoints",(event)=>{
-    new mapboxgl.Popup()
-    .setLngLat(event.features[0].geometry.coordinates)
-    .setHTML(` Device ID :${event.features[0].properties.OBJECTID}</br>Boroname:${event.features[0].properties.Borough}</br>Hotspot Provider: ${event.features[0].properties.Provider}</br>Service: ${event.features[0].properties.Type}</br>
-    `)
-    .addTo(map);
-   
-})
+          popup = new mapboxgl.Popup()
+              .setLngLat(event.features[0].geometry.coordinates)
+              .setHTML(`Device ID: ${event.features[0].properties.OBJECTID}</br>Boroname: ${event.features[0].properties.Borough}</br>Hotspot Provider: ${event.features[0].properties.Provider}</br>Service: ${event.features[0].properties.Type}</br>`)
+              .addTo(map);
+              // console.log(event.features[0])
+      });    
+      map.on('mouseleave', 'accesspoints', () => {
+          if (popup) {
+              popup.remove();
+          }
+      });
+      map.on('click', 'accesspoints', (event) => {
+        const feature = event.features[0].properties;
+        setPopupData(feature);
+        setShowCustomPopup(true);
+      });
+
+     
+    
     map.on('click',"add-boro",(event)=>{
       const layerId = `accesspoints`;
       const clickedBorough = event.features[0].properties.boro_name;
-
-      
-      const centerCoordinates = boroughCoordinates[clickedBorough];
+ const centerCoordinates = boroughCoordinates[clickedBorough];
       const zoomLevel = 11; 
       if (map.getLayer(layerId)) {
         map.removeLayer(layerId);
@@ -132,16 +163,16 @@ map.on('click',"accesspoints",(event)=>{
           "circle-color": [
             "match",
             ["get",  `Borough`], 
-            `${boroughCodes[event.features[0].properties.boro_name]}`, "#954535",
+            `${boroughCodes[event.features[0].properties.boro_name]}`, "#a0522d",
           "rgba(255, 0, 0, 0)"
           ],
            
           "circle-radius": 8,
-          "circle-opacity":0.2
+          // "circle-opacity":0.6
         },
-        minzoom: 11, 
+        'minzoom': 11, 
       });
-      console.log(event.features[0].properties.boro_name)
+      // console.log(event.features[0].properties.boro_name)
      
     })
 
@@ -149,14 +180,19 @@ map.on('click',"accesspoints",(event)=>{
           
          });
           
-    map.addControl(new mapboxgl.NavigationControl(), "top-right");
+    map.addControl(new mapboxgl.NavigationControl(), "top-left");
 
     // Clean up on unmount
     return () => map.remove();
   }, [cen]);
 
 
-  return <div className="map-container mainsize" ref={mapContainerRef} style={{backgroundColor:'white'}} />;
+  return <div id="main" ><div className="map-container mainsize" ref={mapContainerRef}  ></div> {showCustomPopup && (
+    <div className="custom-popup" >
+      <button onClick={closePopup}>X </button>
+      <CustomPopup data={popupData} />
+    </div>
+  )}</div>;
 };
 
 export default Map;
