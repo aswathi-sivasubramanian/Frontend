@@ -67,3 +67,4 @@ const Sidebar = ({ cen, setCen }) => {
 };
 
 export default Sidebar;
+
