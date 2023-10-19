@@ -21,29 +21,29 @@ const Sidebar = ({ cen, setCen }) => {
     <div className="sidebar">
      
       <Nav className="flex-column">
-        <Nav.Link as={NavLink} to="/slink1" activeClassName="active"  onClick={toggleAdditionalLinks}> {/* Use NavLink */}
+        <Nav.Link as={NavLink} to="/slink1"  onClick={toggleAdditionalLinks}> {/* Use NavLink */}
           <CustomIcon  /> Map
         </Nav.Link>
         {showAdditionalLinks && (
           <div className="mapexten">
             <ul>
             <li>
-          <a href='#' activeClassName="active" onClick={() => setCen([77.22, 28.61])}>
+          <a href='#'onClick={() => setCen([77.22, 28.61])}>
             Delhi
           </a>
         </li>
         <li>
-          <a href='#' activeClassName="active" onClick={() => setCen([72.87, 19.07])}>
+          <a href='#' onClick={() => setCen([72.87, 19.07])}>
             Mumbai
           </a>
         </li>
         <li>
-          <a href='#' activeClassName="active" onClick={() => setCen([88.361, 22.57])}>
+          <a href='#'  onClick={() => setCen([88.361, 22.57])}>
             Kolkata
           </a>
         </li>
         <li>
-          <a href='#' activeClassName="active" onClick={() => setCen([77.5946, 12.9716])}>
+          <a href='#'  onClick={() => setCen([77.5946, 12.9716])}>
             Bangalore
           </a>
         </li>
@@ -51,13 +51,13 @@ const Sidebar = ({ cen, setCen }) => {
           
           </div>
         )}
-        <Nav.Link as={NavLink} to="/slink2" activeClassName="active">
+        <Nav.Link as={NavLink} to="/slink2" >
           <CustomIcon /> SLink2
         </Nav.Link>
-        <Nav.Link as={NavLink} to="/slink3" activeClassName="active">
+        <Nav.Link as={NavLink} to="/slink3" >
           <CustomIcon /> SLink3
         </Nav.Link>
-        <Nav.Link as={NavLink} to="/slink4" activeClassName="active">
+        <Nav.Link as={NavLink} to="/slink4" >
           <CustomIcon /> SLink4
         </Nav.Link>
       </Nav>

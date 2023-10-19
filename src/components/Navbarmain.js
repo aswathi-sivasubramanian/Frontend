@@ -56,18 +56,18 @@ function Navbarmain() {
         <Container >   
         <Nav variant="pills-secondary" className='flex-row' >
       <Nav.Item >
-        <Nav.Link  as={NavLink}to="/openmynz" activeClassName="active">Openmynz</Nav.Link>
+        <Nav.Link  as={NavLink}to="/openmynz" >Openmynz</Nav.Link>
       </Nav.Item>
       <Nav.Item>
-        <Nav.Link as={NavLink} to="/link1"  activeClassName="active">Link1</Nav.Link>
+        <Nav.Link as={NavLink} to="/link1" >Link1</Nav.Link>
       </Nav.Item>
       <Nav.Item>
-        <Nav.Link as={NavLink} to="/link2"  activeClassName="active">
+        <Nav.Link as={NavLink} to="/link2"  >
           Link2
         </Nav.Link>
       </Nav.Item>
       <Nav.Item>
-        <Nav.Link  as={NavLink}to="/link3"  activeClassName="active">
+        <Nav.Link  as={NavLink}to="/link3"  >
           Link3
         </Nav.Link>
       </Nav.Item>

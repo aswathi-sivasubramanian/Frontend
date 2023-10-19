@@ -2,7 +2,7 @@ import React, { useRef, useEffect ,useState} from 'react'
 // import '../styles/Sizing.css'
 import "../styles/Map.css"
 import mapboxgl from "mapbox-gl";
-// import features from './Accesspoints.json';
+import features from './Accesspoints.json';
 import boro from './BoroughNYC.json'
 import Accesspointpopup  from './Accesspointpopup';
 mapboxgl.accessToken =
@@ -44,7 +44,8 @@ const Map = ({ cen, setCen }) => {
     map.on('load', () => {
       map.addSource('hotspot', {
       'type': 'geojson',
-     'data':"http://192.168.3.55:8080/api/v1/geojson_accesspoints"
+     'data':features
+    //  "http://192.168.3.55:8080/api/v1/geojson_accesspoints"
    
       });
       map.addSource('boronyc',{
@@ -109,8 +110,10 @@ const Map = ({ cen, setCen }) => {
      
       map.on('click', 'accesspoints', (event) => {
         const feature = event.features[0].properties;
+        if(boroughCodes[clickedBorough]===event.features[0].properties.Borough){
         setPopupData(feature);
         setShowCustomPopup(true);
+        }
       });
 
      
