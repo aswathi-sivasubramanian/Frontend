@@ -1,8 +1,7 @@
 .modal-80w {
-    min-width:80%;
+    min-width:50%;
   }
   .modal-90w {
-    min-width:66%;
-   margin-right:18.9em !important;
-   margin-top: 3em !important;
+    min-width:73%;
+    margin-top:47px !important;
   }

@@ -10,8 +10,10 @@ import SidebarLink1 from './components/SidebarLink1';
 import SidebarLink2 from './components/SidebarLink2';
 import SidebarLink3 from './components/SidebarLink3';
 import SidebarLink4 from './components/SidebarLink4';
-
-
+import Map from './components/Map';
+import Interface from './components/Interface'
+import Accesspointpopup from './components/Accesspointpopup';
+import SSID from './components/SSID';
 function App() {
   const [cen,setCen] = useState([ -73.5763 ,40.5465]);
  
@@ -28,9 +30,14 @@ function App() {
   <Route path='/link3' element={<Link3/>}/>
   <Route path='/openmynz' element={<Openmynz/>}/>
   <Route path='/slink1' element={<SidebarLink1 cen={cen} setCen={setCen}/>}/>
+  <Route path='/map' element={<Map cen={cen} setCen={setCen}/>}/>
   <Route path='slink2' element={<SidebarLink2/>}/>
   <Route path='/slink3' element={<SidebarLink3/>}/>
   <Route path='/slink4' element={<SidebarLink4/>}/>
+  
+ <Route path='/accesspoint' element={<Accesspointpopup cen={cen} setCen={setCen}/>}/>
+  <Route path='/interface' element={<Interface/>}/>
+  <Route path='/SSID' element={<SSID />}/>
  </Routes>
  </BrowserRouter>
     </>

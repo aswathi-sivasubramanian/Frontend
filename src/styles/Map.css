@@ -1,6 +1,22 @@
+/* breadcrumb */
+.breadcrumb{
+  margin-left: 10px;
+  margin-top: 20px;
+}
+.breadcrumb .bc1.active ~ .bc2,.bc3 {
+  display: none; 
+  
+}
+.breadcrumb .bc2.active{
+  display: block;
+}
+.breadcrumb .bc2,.bc3.active{
+
+  display: block;
+}
 /* popup div */
 .popupdiv{
-  margin-top: 100px;
+  margin-top: 10px;
 }
 /* close button */
 .custom-popup button{
@@ -11,8 +27,8 @@ color: grey;
   border: none;
  right:0;
  position: absolute;
- 
-  border-radius: 12px 0px 12px 0px;
+ text-align: center;
+  border-radius: 0px 0px 0px 0px;
  
 }
 p{
@@ -28,7 +44,7 @@ border-radius:  0px 0px 0px 0px;
  top: 0;
  margin-top:42px ;  /* left:0; */
   right: 0;
-  width: 300px;
+  width: 200px;
   height:10000px;
   background-color:black;
   overflow: hidden;
